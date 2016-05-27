@@ -22,10 +22,12 @@ struct Game {
     Player player;
     short int isPlaying;
     int bet;
+    int profit;
 };
 
 Game game;
 char symbol[6] = {'x', 'o', 'y', 'v', 'w', 's'};
+char winningArray[6][6];
 
 void newPlayer() {
     printf("Create your player !\nEnter your name: ");
@@ -38,7 +40,7 @@ char getRandChar(){
     return symbol[rand()%6];
 }
 
-void getRandArrayFrom(){
+void getRandArray(){
     game.result[0] = getRandChar();
     game.result[1] = getRandChar();
     game.result[2] = getRandChar();
@@ -47,11 +49,12 @@ void getRandArrayFrom(){
 void betting() {
     printf("Bet: ");
     scanf("%d", &game.bet);
+    game.player.balance = game.player.balance-game.bet;
 }
 
 
 //Return player's gain or 0 if he loose
-int checkResult(char winningArray[6][6]){
+int checkResult(){
     int win = 0, tmp = 0;
     for(int i=0; i<6; i++){
         if(win == 0){
@@ -68,10 +71,32 @@ int checkResult(char winningArray[6][6]){
     return 0;
 }
 
+void launchGambling() {
+    getRandArray();
+}
+
+void updatePlayerBalance() {
+    game.player.balance = game.player.balance+game.profit;
+    game.profit = 0;
+    game.bet = 0;
+}
+
+void replay() {
+    printf("Do you want to continue ? (y/n)\n");
+    char answer;
+    scanf("%c", &answer);
+    if(answer == 'n')
+        game.isPlaying = 0;
+}
+
 void newGame() {
     newPlayer();
     game.isPlaying = 1;
     betting();
+    launchGambling();
+    game.profit = checkResult();
+    updatePlayerBalance();
+    replay();
 }
 
 int main() {
