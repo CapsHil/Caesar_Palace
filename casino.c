@@ -12,30 +12,33 @@
 
 typedef struct Player Player;
 struct Player {
-    int solde;
-    int bet;
+    int balance;
     char*  name;
 };
 
-Player newPlayer(char* name, int solde) {
+char symbol[6] = {'x', 'o', 'y', 'v', 'w', 's'};
+char result[3] = {0};
+Player player;
+
+Player newPlayer(char* name, int balance) {
     Player joueur;
-    joueur.solde = solde;
+    joueur.balance = balance;
     joueur.name = name;
     return joueur;
 }
 
-char getRandCharFrom(char symbol[6]){
+char getRandChar(){
     return symbol[rand()%6];
 }
 
-void getRandArrayFrom(char symbol[6], char *result){
-    result[0] = getRandCharFrom(symbol);
-    result[1] = getRandCharFrom(symbol);
-    result[2] = getRandCharFrom(symbol);
+void getRandArrayFrom(char *result){
+    result[0] = getRandChar();
+    result[1] = getRandChar();
+    result[2] = getRandChar();
 }
 
 void betting(int bet, Player player) {
-    player.bet = bet;
+    //player.bet = bet;
 }
 
 
@@ -61,12 +64,11 @@ int checkResult(char winningArray[6][6], char result[3]){
 
 int main() {
     srand(time(NULL));
-    char symbol[6] = {'x', 'o', 'y', 'v', 'w', 's'};
-    char result[3] = {0};
-    Player player = newPlayer("Pierre", 1000);
+    player = newPlayer("Pierre", 1000);
     int bet = 0;
     scanf("%d", &bet);
     betting(bet, player);
-    getRandArrayFrom(symbol, result);
+    getRandArrayFrom(result);
+    printf("%s: %d", player.name, player.balance);
     return 42;
 }
