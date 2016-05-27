@@ -13,17 +13,19 @@
 typedef struct Player Player;
 struct Player {
     int balance;
-    char*  name;
+    char name[256];
 };
 
 char symbol[6] = {'x', 'o', 'y', 'v', 'w', 's'};
 char result[3] = {0};
 Player player;
 
-Player newPlayer(char* name, int balance) {
+Player newPlayer() {
     Player joueur;
-    joueur.balance = balance;
-    joueur.name = name;
+    printf("Create your player !\nEnter your name: ");
+    scanf("%s", joueur.name);
+    printf("\nEnter your starting balance: ");
+    scanf("%d", &joueur.balance);
     return joueur;
 }
 
@@ -64,11 +66,11 @@ int checkResult(char winningArray[6][6], char result[3]){
 
 int main() {
     srand(time(NULL));
-    player = newPlayer("Pierre", 1000);
-    int bet = 0;
-    scanf("%d", &bet);
-    betting(bet, player);
-    getRandArrayFrom(result);
-    printf("%s: %d", player.name, player.balance);
+    player = newPlayer();
+    //int bet = 0;
+    //scanf("%d", &bet);
+    //betting(bet, player);
+    //getRandArrayFrom(result);
+    printf("%s: %d\n", player.name, player.balance);
     return 42;
 }
