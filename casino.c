@@ -34,7 +34,7 @@ void getRandArrayFrom(char symbol[6], char *result){
     result[2] = getRandCharFrom(symbol);
 }
 
-void bet(int bet, Player player) {
+void betting(int bet, Player player) {
     player.bet = bet;
 }
 
@@ -65,8 +65,8 @@ int main() {
     char result[3] = {0};
     Player player = newPlayer("Pierre", 1000);
     int bet = 0;
-    scanf("%d", *bet);
-    bet(bet, player);
+    scanf("%d", &bet);
+    betting(bet, player);
     getRandArrayFrom(symbol, result);
     return 42;
 }
