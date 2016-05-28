@@ -79,31 +79,46 @@ void printJackpot() {
 		printf("| $$  | $$| $$  | $$| $$    $$| $$\\  $$ | $$      | $$  | $$   | $$   \n");
 		printf("|  $$$$$$/| $$  | $$|  $$$$$$/| $$ \\  $$| $$      |  $$$$$$/   | $$   \n");
 		printf(" \\______/ |__/  |__/ \\______/ |__/  \\__/|__/       \\______/    |__/   \n");
+		printf("\n");
+		printf("\n");
 	} else {
-		printf("    /$$             /$$             /$$   \n"); 
-		printf("  /$$$$$$         /$$$$$$         /$$$$$$ \n");
-		printf(" /$$__  $$       /$$__  $$       /$$__  $$\n");
-		printf("| $$  \\__/      | $$  \\__/      | $$  \\__/\n");
-		printf("|  $$$$$$       |  $$$$$$       |  $$$$$$ \n");
-		printf(" \\____  $$       \\____  $$       \\____  $$\n");
-		printf(" /$$  \\ $$       /$$  \\ $$       /$$  \\ $$\n");
-		printf("|  $$$$$$/      |  $$$$$$/      |  $$$$$$/\n");
-		printf(" \\_  $$_/        \\_  $$_/        \\_  $$_/ \n");
-		printf("   \\__/            \\__/            \\__/   \n");
+		printf("                /$$             /$$             /$$   \n"); 
+		printf("              /$$$$$$         /$$$$$$         /$$$$$$ \n");
+		printf("             /$$__  $$       /$$__  $$       /$$__  $$\n");
+		printf("            | $$  \\__/      | $$  \\__/      | $$  \\__/\n");
+		printf("            |  $$$$$$       |  $$$$$$       |  $$$$$$ \n");
+		printf("             \\____  $$       \\____  $$       \\____  $$\n");
+		printf("             /$$  \\ $$       /$$  \\ $$       /$$  \\ $$\n");
+		printf("            |  $$$$$$/      |  $$$$$$/      |  $$$$$$/\n");
+		printf("             \\_  $$_/        \\_  $$_/        \\_  $$_/ \n");
+		printf("               \\__/            \\__/            \\__/   \n");
+		printf("	                                                                  \n");
+	    printf("	                                                                  \n");
+	    printf("	                                                                  \n");
+	    printf("    /$$$$$  /$$$$$$   /$$$$$$  /$$   /$$ /$$$$$$$   /$$$$$$  /$$$$$$$$\n");
+		printf("   |__  $$ /$$__  $$ /$$__  $$| $$  /$$/| $$__  $$ /$$__  $$|__  $$__/\n");
+		printf("      | $$| $$  \\ $$| $$  \\__/| $$ /$$/ | $$  \\ $$| $$  \\ $$   | $$   \n");
+		printf("      | $$| $$$$$$$$| $$      | $$$$$/  | $$$$$$$/| $$  | $$   | $$   \n");
+		printf(" /$$  | $$| $$__  $$| $$      | $$  $$  | $$____/ | $$  | $$   | $$   \n");
+		printf("| $$  | $$| $$  | $$| $$    $$| $$\\  $$ | $$      | $$  | $$   | $$   \n");
+		printf("|  $$$$$$/| $$  | $$|  $$$$$$/| $$ \\  $$| $$      |  $$$$$$/   | $$   \n");
+		printf(" \\______/ |__/  |__/ \\______/ |__/  \\__/|__/       \\______/    |__/   \n");
+		printf("\n");
+		printf("\n");
+	}
+}
+
+void printBlinkingJackpotFor(int seconds) {
+	for(int i=0; i<seconds/2; i++) {
+		clearScreen();
+		sleep(1);
+		printJackpot();
+		sleep(1);
 	}
 }
 
 void clearInputBuffer() {    
  	while(getchar() != '\n');
-}
-
-void printBlinkingJackpotFor(int seconds) {
-	while(1) {
-		printJackpot();
-		sleep(1);
-		clearScreen();
-		sleep(1);
-	}
 }
 
 void resetGame() {
@@ -114,11 +129,11 @@ void resetGame() {
 
 void printResult() {
 	if(game.isGodMode != 1)
-		printf("Result: %c %c %c\n", game.randomResult[0], game.randomResult[1], game.randomResult[2]);
-	printf("You bet: %d\n", game.player.bet);
+		printf("Result: %c %c %c\n\n", game.randomResult[0], game.randomResult[1], game.randomResult[2]);
+	printf("You bet: %d\n\n", game.player.bet);
 	if(game.player.profit > 0) {
-		if(game.jackpot == 1) {
-			printJackpot();
+		if(game.jackpot == 1 || game.isGodMode == 1) {
+			printBlinkingJackpotFor(6);
 		}
 		printf("You win %d, Congratulations !\nYour new balance is %d\n", game.player.profit, game.player.balance);
 	}
@@ -127,7 +142,7 @@ void printResult() {
 }
 
 void replay() {
-    printf("Do you want to continue ? (y/n)\n");
+    printf("\nDo you want to continue ? (y/n)\n");
     char answer;
     //	clearInputBuffer();
     scanf("%c", &answer);
@@ -138,6 +153,7 @@ void replay() {
         game.player.wantToPlay = 0;
     }
     resetGame();
+    clearScreen();
 }
 
 void updatePlayerBalance() {
@@ -236,6 +252,7 @@ void newPlayer() {
     scanf("%s", game.player.name);
     printf("Enter your starting balance: ");
     scanf("%d", &game.player.balance);
+    clearScreen();
     printf("Welcome %s, your balance is %d\n", game.player.name, game.player.balance);
     game.player.profit = 0;
     game.player.wantToPlay = 1;
@@ -245,9 +262,11 @@ void newGame() {
 	game.jackpot = 0;
 	printf("Choose your game mode :\n1 - Chararacter mode\n2 - Symbole mode\n");
 	game.mode = getIntegerLesserThan(2);
+	clearScreen();
     newPlayer();
     while(game.player.wantToPlay == 1) {
 	    betting();
+	    clearScreen();
 	    if(game.isGodMode == 1) {
 	    	game.player.profit = getProfitFromResult(0);
 	    }
@@ -263,6 +282,7 @@ void newGame() {
 
 int main(int argc, char *argv[]) {
     srand(time(NULL));
+    clearScreen();
     if(argc > 1) {
     	if(strcmp("god_mode",argv[1]) == 0) {
     		printf("God Mode activated !\n");
